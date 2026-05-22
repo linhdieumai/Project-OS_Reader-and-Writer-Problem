@@ -3,10 +3,6 @@ import threading
 import time
 import random
 
-# Khởi tạo các Semaphore
-# service_queue: Đảm bảo thứ tự phục vụ (ai đến trước vào hàng đợi trước)
-service_queue = threading.Semaphore(value=1)
-# resource: Bảo vệ tài nguyên chung, chỉ cho phép 1 Writer hoặc n Readers
 # khởi tạo các semaphore
 # đảm bảo thứ tự phục vụ (ai đến trước vào hàng đợi trước)
 service_queue = threading.Semaphore(1)
@@ -48,7 +44,7 @@ def reader(id):
     read_count -= 1
     if read_count == 0:               # nếu là reader cuối cùng rời đi
         with print_lock:
-            print(f"Reader {id} mở khóa")            
+            print(f"Reader {id} mở khóa")               
         resource.release()            # giải phóng tài nguyên cho writer
     read_m.release()
 
