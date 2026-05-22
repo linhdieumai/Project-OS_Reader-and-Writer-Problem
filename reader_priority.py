@@ -22,10 +22,11 @@ def reader(reader_id):
     read_count+=1
     if(read_count==1):
         write_lock.acquire()
-    read_m.release()
-
     with print_lock:
         print(f" Reader {reader_id} đang đọc dữ liệu {shared_data} (Tổng số người đang đọc: {read_count})")
+    read_m.release()
+
+    
     read_time=uniform(1,2)
     sleep(read_time)
     with print_lock:

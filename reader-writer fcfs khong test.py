@@ -28,13 +28,13 @@ def reader(id):
     read_count += 1
     if read_count == 1:               # nếu là reader đầu tiên
         resource.acquire()            # khóa tài nguyên không cho writer vào
-        
+    # critical
+    with print_lock:
+        print(f" Reader {id} đang đọc dữ liệu {shared_data} (Tổng số người đang đọc: {read_count})")    
     read_m.release()
     service_queue.release()           # cho phép người tiếp theo trong hàng đợi vào
     
-    # critical
-    with print_lock:
-        print(f" Reader {id} đang đọc dữ liệu {shared_data} (Tổng số người đang đọc: {read_count})")
+    
     time.sleep(random.uniform(1, 2))  # mô phỏng thời gian đọc
     with print_lock:
         print(f" Reader {id} đã đọc xong")

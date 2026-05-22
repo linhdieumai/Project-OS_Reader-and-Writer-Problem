@@ -37,13 +37,12 @@ def reader (reader_id):
     read_count += 1
     if (read_count == 1):
         resource.acquire() # người đọc đầu khóa tài nguyên lại không cho người viết vào
+    with print_lock: # bắt đầu đọc
+      print(f" Reader {reader_id} đang đọc dữ liệu {shared_data} (Tổng số người đang đọc: {read_count})")
     read_m.release() # release biến read_count
 
     read_lock.release() # release để người đọc khác có thể vào
 
-    # bắt đầu đọc
-    with print_lock:
-      print(f" Reader {reader_id} đang đọc dữ liệu {shared_data} (Tổng số người đang đọc: {read_count})")
     time.sleep(random.uniform(1,2)) # Mô phỏng thời gian đọc
     with print_lock:
       print(f" Reader {reader_id} đã đọc xong")
